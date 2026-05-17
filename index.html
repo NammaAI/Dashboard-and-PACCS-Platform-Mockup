@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Co-operation, Food &amp; Consumer Protection — Intelligence Preview</title>
+<style>
+  :root {
+    --ink: #0a0e1a;
+    --ink-2: #1e293b;
+    --ink-3: #334155;
+    --muted: #64748b;
+    --muted-2: #94a3b8;
+    --line: #e2e8f0;
+    --line-2: #f1f5f9;
+    --bg: #f8fafc;
+    --bg-2: #f1f5f9;
+    --maroon: #7f1d2a;
+    --maroon-2: #5a1320;
+    --maroon-3: #a8324a;
+    --maroon-soft: #fdf2f4;
+    --maroon-line: #f4cdd4;
+    --gold: #b45309;
+    --gold-soft: #fef3c7;
+    --gold-line: #fde68a;
+    --green: #047857;
+    --green-soft: #d1fae5;
+    --red: #b91c1c;
+    --red-soft: #fee2e2;
+    --amber: #b45309;
+    --amber-soft: #fef3c7;
+    --blue: #1e3a8a;
+    --blue-soft: #eff6ff;
+    --shadow-sm: 0 1px 2px rgba(15,23,42,0.04);
+    --shadow: 0 1px 3px rgba(15,23,42,0.06), 0 4px 12px rgba(15,23,42,0.05);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .app {
+    display: grid;
+    grid-template-columns: 264px 1fr;
+    grid-template-rows: 52px 1fr;
+    grid-template-areas: "sidebar topbar" "sidebar main";
+    min-height: 100vh;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    grid-area: sidebar;
+    background: linear-gradient(180deg, #5a1320 0%, #7f1d2a 100%);
+    color: rgba(255,255,255,0.85);
+    overflow-y: auto;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .sidebar .brand-block {
+    padding: 18px 16px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.10);
+    flex-shrink: 0;
+  }
+  .sidebar .brand-mark { display: flex; align-items: center; gap: 10px; }
+  .sidebar .emblem {
+    width: 32px; height: 32px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 800; color: #fcd34d;
+    flex-shrink: 0;
+  }
+  .sidebar .brand-name { font-size: 12.5px; font-weight: 700; color: #fff; line-height: 1.2; }
+  .sidebar .brand-sub { font-size: 10px; color: rgba(255,255,255,0.55); margin-top: 2px; }
+  .sidebar .gov-line { font-size: 10px; color: rgba(255,255,255,0.45); margin-top: 12px; line-height: 1.5; }
+  .sidebar .nav-section { padding: 16px 10px 6px; }
+  .sidebar .nav-label {
+    font-size: 9.5px; text-transform: uppercase; letter-spacing: 1.8px;
+    color: rgba(255,255,255,0.40); font-weight: 700;
+    padding: 0 8px; margin-bottom: 6px;
+  }
+  .sidebar a.nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 10px; border-radius: 7px;
+    text-decoration: none; color: rgba(255,255,255,0.72);
+    font-size: 12.5px; font-weight: 500; cursor: pointer;
+    transition: all 0.12s; margin-bottom: 2px;
+  }
+  .sidebar a.nav-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .sidebar a.nav-item.active { background: rgba(255,255,255,0.14); color: #fff; font-weight: 700; }
+  .sidebar a.nav-item .ico {
+    width: 24px; height: 24px; background: rgba(255,255,255,0.08);
+    border-radius: 5px; display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.6);
+    flex-shrink: 0; font-family: monospace;
+  }
+  .sidebar a.nav-item.active .ico { background: rgba(252,211,77,0.2); color: #fcd34d; }
+  .sidebar a.nav-item .label { font-size: 12px; line-height: 1.35; }
+
+  /* TOPBAR */
+  .topbar {
+    grid-area: topbar; background: #fff;
+    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 28px; position: sticky; top: 0; z-index: 50;
+    box-shadow: var(--shadow-sm);
+  }
+  .topbar .crumb { font-size: 13px; font-weight: 600; color: var(--ink-2); }
+  .topbar .preview-pill {
+    background: var(--maroon-soft); color: var(--maroon);
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.2px; padding: 4px 10px; border-radius: 12px;
+    border: 1px solid var(--maroon-line);
+  }
+
+  /* MAIN */
+  main { grid-area: main; padding: 32px 36px 80px; }
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* PAGE HEAD */
+  .page-head { margin-bottom: 24px; }
+  .use-case-tag {
+    display: inline-block; font-size: 10.5px; text-transform: uppercase;
+    letter-spacing: 1.5px; font-weight: 700; color: var(--maroon);
+    background: var(--maroon-soft); border: 1px solid var(--maroon-line);
+    padding: 4px 10px; border-radius: 4px; margin-bottom: 12px;
+  }
+  .use-case-tag.gold { color: var(--gold); background: var(--gold-soft); border-color: var(--gold-line); }
+  .page-head h1 {
+    font-size: 28px; font-weight: 800; letter-spacing: -0.7px;
+    margin: 0 0 8px; color: var(--ink); line-height: 1.15;
+  }
+  .page-head .sub { font-size: 14.5px; color: var(--ink-3); max-width: 780px; line-height: 1.6; margin: 0; }
+
+  /* STATUS BAR */
+  .status-bar {
+    display: flex; align-items: center; gap: 16px;
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 10px; padding: 14px 20px; margin-bottom: 22px;
+  }
+  .status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .status-dot.green { background: var(--green); box-shadow: 0 0 0 3px rgba(4,120,87,0.15); }
+  .status-dot.amber { background: var(--amber); box-shadow: 0 0 0 3px rgba(180,83,9,0.15); }
+  .status-dot.red { background: var(--red); box-shadow: 0 0 0 3px rgba(185,28,28,0.15); }
+  .status-text { flex: 1; font-size: 13.5px; color: var(--ink-2); line-height: 1.5; }
+  .status-text strong { color: var(--ink); }
+  .status-badge {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.8px; padding: 4px 10px; border-radius: 12px; flex-shrink: 0;
+  }
+  .status-badge.green { background: var(--green-soft); color: var(--green); }
+  .status-badge.amber { background: var(--amber-soft); color: var(--amber); }
+  .status-badge.red { background: var(--red-soft); color: var(--red); }
+
+  /* KPI STRIPS */
+  .kpi-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 22px; }
+  .kpi-tile {
+    background: #fff; border: 1px solid var(--line); border-radius: 10px;
+    padding: 18px 20px; position: relative; overflow: hidden;
+  }
+  .kpi-tile::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%; background: var(--maroon);
+  }
+  .kpi-tile.gold::before { background: var(--gold); }
+  .kpi-tile.green::before { background: var(--green); }
+  .kpi-tile .k-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--muted); font-weight: 700; margin-bottom: 8px; }
+  .kpi-tile .k-value { font-size: 28px; font-weight: 800; color: var(--ink); letter-spacing: -0.8px; line-height: 1; margin-bottom: 5px; }
+  .kpi-tile .k-sub { font-size: 12px; color: var(--muted); line-height: 1.45; }
+
+  /* LAYOUT */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 20px; }
+
+  /* CARDS */
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 20px 22px; }
+  .card-title {
+    font-size: 13px; font-weight: 700; color: var(--ink); letter-spacing: -0.2px;
+    margin-bottom: 14px; padding-bottom: 11px; border-bottom: 1px solid var(--line-2);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .ct-tag {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px;
+    font-weight: 700; padding: 2px 7px; border-radius: 3px;
+    background: var(--bg-2); color: var(--muted);
+  }
+
+  /* ATTENTION LIST */
+  .attention-list { list-style: none; padding: 0; margin: 0; }
+  .attention-item { display: flex; align-items: flex-start; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--line-2); }
+  .attention-item:last-child { border-bottom: none; }
+  .att-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+  .att-dot.red { background: var(--red); }
+  .att-dot.amber { background: var(--amber); }
+  .att-dot.blue { background: var(--blue); }
+  .att-text { flex: 1; font-size: 13px; color: var(--ink-2); line-height: 1.55; }
+  .att-text strong { color: var(--ink); }
+  .att-action {
+    font-size: 10.5px; color: var(--maroon); font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.6px;
+    padding: 3px 8px; border: 1px solid var(--maroon-line);
+    border-radius: 4px; background: var(--maroon-soft);
+    white-space: nowrap; margin-top: 2px; flex-shrink: 0;
+  }
+
+  /* METRIC ROWS */
+  .metric-row { display: flex; align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line-2); }
+  .metric-row:last-child { border-bottom: none; }
+  .metric-label { flex: 1; font-size: 13px; color: var(--ink-3); }
+  .metric-label strong { color: var(--ink-2); }
+  .metric-value { font-size: 14px; font-weight: 700; color: var(--ink); text-align: right; font-variant-numeric: tabular-nums; min-width: 90px; }
+  .metric-value .mv-sub { display: block; font-size: 11px; font-weight: 500; color: var(--muted); margin-top: 1px; }
+  .metric-bar { width: 80px; height: 5px; background: var(--line-2); border-radius: 3px; overflow: hidden; }
+  .metric-bar-fill { height: 100%; border-radius: 3px; background: var(--maroon); }
+  .metric-bar-fill.gold { background: var(--gold); }
+  .metric-bar-fill.green { background: var(--green); }
+
+  /* PILLS */
+  .pill { display: inline-block; padding: 3px 9px; border-radius: 10px; font-size: 11px; font-weight: 700; }
+  .pill.green { background: var(--green-soft); color: var(--green); }
+  .pill.amber { background: var(--amber-soft); color: var(--amber); }
+  .pill.red { background: var(--red-soft); color: var(--red); }
+  .pill.blue { background: var(--blue-soft); color: var(--blue); }
+  .pill.muted { background: var(--bg-2); color: var(--muted); }
+
+  /* CALLOUTS */
+  .callout {
+    padding: 14px 18px; border-radius: 8px; font-size: 13.5px;
+    color: var(--ink-2); line-height: 1.6; margin: 14px 0;
+    border-left: 3px solid var(--maroon); background: var(--maroon-soft);
+  }
+  .callout.gold { border-left-color: var(--gold); background: var(--gold-soft); }
+  .callout.neutral { border-left-color: var(--muted-2); background: var(--bg-2); }
+  .callout strong { color: var(--maroon); }
+  .callout.gold strong { color: var(--gold); }
+  .callout.neutral strong { color: var(--ink); }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-size: 15px; font-weight: 800; letter-spacing: -0.4px;
+    margin: 24px 0 12px; color: var(--ink);
+    padding-bottom: 10px; border-bottom: 2px solid var(--line);
+  }
+
+  /* CONVERGENCE TILES */
+  .conv-grid {
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    gap: 12px; margin-bottom: 20px;
+  }
+  .conv-tile {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 10px; padding: 16px 18px; cursor: pointer;
+    transition: all 0.12s;
+  }
+  .conv-tile:hover { border-color: var(--maroon-line); box-shadow: var(--shadow); }
+  .ct-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; gap: 6px; }
+  .ct-name { font-size: 11.5px; font-weight: 700; color: var(--ink-2); line-height: 1.3; }
+  .ct-flag { font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 8px; white-space: nowrap; flex-shrink: 0; }
+  .ct-flag.green { background: var(--green-soft); color: var(--green); }
+  .ct-flag.amber { background: var(--amber-soft); color: var(--amber); }
+  .ct-flag.red { background: var(--red-soft); color: var(--red); }
+  .ct-sig { font-size: 19px; font-weight: 800; color: var(--ink); letter-spacing: -0.5px; margin-bottom: 4px; }
+  .ct-line { font-size: 11.5px; color: var(--muted); line-height: 1.4; }
+
+  /* CREDIT DECISION ENGINE */
+  .cde-layout { display: grid; grid-template-columns: 290px 1fr; gap: 18px; margin-top: 18px; }
+  .cde-member { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 20px; }
+  .mem-header { text-align: center; padding-bottom: 16px; border-bottom: 1px solid var(--line-2); margin-bottom: 14px; }
+  .mem-avatar {
+    width: 48px; height: 48px; background: var(--maroon-soft); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 800; color: var(--maroon);
+    margin: 0 auto 10px;
+  }
+  .mem-name { font-size: 15px; font-weight: 800; color: var(--ink); }
+  .mem-id { font-size: 10.5px; color: var(--muted); margin-top: 3px; font-family: monospace; }
+  .mem-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 7px 0; border-bottom: 1px solid var(--line-2); font-size: 12.5px; }
+  .mem-row:last-child { border-bottom: none; }
+  .mem-row .mrl { color: var(--muted); flex-shrink: 0; margin-right: 8px; }
+  .mem-row .mrv { font-weight: 600; color: var(--ink-2); text-align: right; }
+
+  .cde-right { display: flex; flex-direction: column; gap: 14px; }
+
+  .credit-rec { background: #fff; border: 2px solid var(--green); border-radius: 10px; padding: 20px 22px; }
+  .cr-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 1px; color: var(--green); font-weight: 700; margin-bottom: 6px; }
+  .cr-title { font-size: 15px; font-weight: 700; color: var(--ink); }
+  .cr-amount { font-size: 38px; font-weight: 800; color: var(--green); letter-spacing: -1.2px; margin: 14px 0 4px; line-height: 1; }
+  .cr-sub { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+  .cr-basis { font-size: 12.5px; color: var(--ink-3); line-height: 1.6; padding-top: 14px; border-top: 1px solid var(--line-2); }
+  .cr-basis strong { color: var(--green); }
+
+  .credit-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .ca-btn { padding: 11px 14px; border-radius: 8px; text-align: center; font-size: 13px; font-weight: 700; cursor: pointer; border: none; font-family: inherit; }
+  .ca-btn.approve { background: var(--green); color: #fff; }
+  .ca-btn.refer { background: var(--amber-soft); color: var(--amber); border: 1px solid var(--gold-line); }
+  .ca-btn.flag { background: var(--red-soft); color: var(--red); border: 1px solid #fecaca; }
+
+  .rep-record { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; }
+  .rep-title { font-size: 12px; font-weight: 700; color: var(--ink); margin-bottom: 12px; }
+  .rep-bars { display: grid; grid-template-columns: repeat(6,1fr); gap: 6px; align-items: end; height: 60px; }
+  .rep-bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .rep-bar { width: 100%; border-radius: 3px 3px 0 0; }
+  .rep-bar.early { background: #34d399; }
+  .rep-bar.ontime { background: var(--green); }
+  .rep-bar.late { background: var(--amber); }
+  .rep-yr { font-size: 9.5px; color: var(--muted); }
+  .rep-summary { display: flex; gap: 16px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line-2); font-size: 12px; color: var(--ink-3); }
+  .rs-hi { font-weight: 700; color: var(--green); }
+  .rs-lo { font-weight: 700; color: var(--amber); }
+
+  /* SOCIETY HEALTH */
+  .society-monitor { background: #fff; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .sm-row { display: grid; grid-template-columns: 200px 1fr 110px 170px 120px; gap: 12px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--line-2); font-size: 13px; }
+  .sm-row.hdr { background: var(--bg-2); border-bottom: 1px solid var(--line); }
+  .sm-row.hdr div { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.7px; color: var(--muted); font-weight: 700; }
+  .sm-row:last-child { border-bottom: none; }
+  .sm-name { font-weight: 600; color: var(--ink-2); line-height: 1.3; }
+  .sm-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .sm-driver { font-size: 12px; color: var(--ink-3); line-height: 1.45; }
+  .sm-intervention { font-size: 12px; color: var(--ink-3); line-height: 1.45; }
+
+  /* SOURCE TABLE */
+  .source-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .source-table th { text-align: left; padding: 9px 13px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: var(--muted); background: var(--bg-2); border-bottom: 1px solid var(--line); }
+  .source-table td { padding: 10px 13px; border-bottom: 1px solid var(--line-2); color: var(--ink-3); vertical-align: top; line-height: 1.5; }
+  .source-table tr:last-child td { border-bottom: none; }
+  .source-table td:first-child { font-weight: 600; color: var(--ink-2); }
+  .badge-v { display: inline-block; padding: 2px 7px; border-radius: 3px; font-size: 10.5px; font-weight: 700; }
+  .badge-v.verbatim { background: var(--green-soft); color: var(--green); }
+  .badge-v.derived { background: var(--blue-soft); color: var(--blue); }
+  .badge-v.illus { background: var(--amber-soft); color: var(--amber); }
+
+  /* DEMO BANNER */
+  .demo-banner {
+    position: fixed; bottom: 14px; right: 14px;
+    background: rgba(15,23,42,0.90); color: #fff;
+    padding: 7px 14px; border-radius: 6px; font-size: 11px;
+    z-index: 200; backdrop-filter: blur(6px); pointer-events: none;
+  }
+  .demo-banner strong { color: #fcd34d; }
+
+  @media (max-width: 900px) {
+    .app { grid-template-columns: 1fr; grid-template-areas: "topbar" "main"; }
+    .sidebar { display: none; }
+    .two-col, .kpi-3, .conv-grid, .cde-layout { grid-template-columns: 1fr; }
+    .sm-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand-block">
+      <div class="brand-mark">
+        <div class="emblem">C</div>
+        <div>
+          <div class="brand-name">Co-operation Dept</div>
+          <div class="brand-sub">Intelligence Preview</div>
+        </div>
+      </div>
+      <div class="gov-line">Co-operation, Food &amp; Consumer Protection<br>Government of Tamil Nadu</div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Use Case 01 &middot; Department Dashboard</div>
+      <a class="nav-item active" data-screen="vbanking" onclick="go('vbanking')">
+        <span class="ico">V1</span><span class="label">Co-operative Banking &amp; Credit</span>
+      </a>
+      <a class="nav-item" data-screen="vpaccs" onclick="go('vpaccs')">
+        <span class="ico">V2</span><span class="label">PACCS &amp; Rural Credit</span>
+      </a>
+      <a class="nav-item" data-screen="vpds" onclick="go('vpds')">
+        <span class="ico">V3</span><span class="label">Public Distribution System</span>
+      </a>
+      <a class="nav-item" data-screen="vconsumer" onclick="go('vconsumer')">
+        <span class="ico">V4</span><span class="label">Consumer Co-ops &amp; Medical Shops</span>
+      </a>
+      <a class="nav-item" data-screen="vwelfare" onclick="go('vwelfare')">
+        <span class="ico">V5</span><span class="label">Welfare Schemes</span>
+      </a>
+      <a class="nav-item" data-screen="convergence" onclick="go('convergence')">
+        <span class="ico">⊕</span><span class="label">Unified Department View</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Use Case 02 &middot; PACCS Platform</div>
+      <a class="nav-item" data-screen="paccs-credit" onclick="go('paccs-credit')">
+        <span class="ico">P1</span><span class="label">Credit Decision Engine</span>
+      </a>
+      <a class="nav-item" data-screen="paccs-health" onclick="go('paccs-health')">
+        <span class="ico">P2</span><span class="label">Society Health Monitor</span>
+      </a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Reference</div>
+      <a class="nav-item" data-screen="about" onclick="go('about')">
+        <span class="ico">ⓘ</span><span class="label">About this preview</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="crumb" id="crumb"><strong>Use Case 01 &middot; Co-operative Banking &amp; Credit</strong></div>
+    <div class="preview-pill">Working Preview &middot; Illustrative</div>
+  </header>
+
+  <main>
+
+    <!-- ================================================================
+         V1: BANKING & CREDIT
+    ================================================================ -->
+    <section class="screen active" id="s-vbanking">
+      <div class="page-head">
+        <div class="use-case-tag">Use Case 01 &middot; Vertical 1</div>
+        <h1>Co-operative Banking &amp; Credit.</h1>
+        <p class="sub">Apex Bank + 23 Central Co-op Banks + 125 Urban Co-op Banks. A ₹95,000+ crore balance sheet running on CBS, UPI, AEPS — with no analytics layer above it today.</p>
+      </div>
+
+      <div class="status-bar">
+        <div class="status-dot amber"></div>
+        <div class="status-text"><strong>Portfolio under watch.</strong> Deposits grew in FY25. One UCB is below CRAR threshold; three CCBs show sector concentration in a single crop. No system currently surfaces these signals in real time.</div>
+        <div class="status-badge amber">Attention needed</div>
+      </div>
+
+      <div class="kpi-3">
+        <div class="kpi-tile">
+          <div class="k-label">Aggregate Deposits</div>
+          <div class="k-value">₹54,718 cr</div>
+          <div class="k-sub">Apex ₹12,023 cr + CCBs ₹42,695 cr &middot; FY25</div>
+        </div>
+        <div class="kpi-tile gold">
+          <div class="k-label">Portfolio NPA view</div>
+          <div class="k-value">Not live</div>
+          <div class="k-sub">No composite NPA view across 149 institutions today</div>
+        </div>
+        <div class="kpi-tile green">
+          <div class="k-label">Institutions on CBS</div>
+          <div class="k-value">149</div>
+          <div class="k-sub">All on Core Banking &middot; UPI, AEPS, IMPS, NEFT, RTGS live</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">What needs attention <span class="ct-tag">Flagged for decision</span></div>
+          <ul class="attention-list">
+            <li class="attention-item">
+              <div class="att-dot red"></div>
+              <div class="att-text"><strong>1 UCB below CRAR threshold.</strong> Capital adequacy has fallen below regulatory minimum. Remediation plan needed — capital infusion or portfolio de-risking.</div>
+              <div class="att-action">Escalate</div>
+            </li>
+            <li class="attention-item">
+              <div class="att-dot amber"></div>
+              <div class="att-text"><strong>3 CCBs with crop concentration risk.</strong> Cotton-belt DCCBs carry disproportionate exposure in one crop in one season. Early warning — no defaults yet.</div>
+              <div class="att-action">Review</div>
+            </li>
+            <li class="attention-item">
+              <div class="att-dot amber"></div>
+              <div class="att-text"><strong>Jewel loan waiver reconciliation still manual.</strong> ₹4,918 cr waiver (11.83 lakh beneficiaries) — NABARD reimbursement tracked on spreadsheets, not a live system.</div>
+              <div class="att-action">Track</div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Balance sheet by tier <span class="ct-tag">Policy Note 2025–26</span></div>
+          <div class="metric-row">
+            <div class="metric-label"><strong>Apex Bank</strong> deposits</div>
+            <div class="metric-bar"><div class="metric-bar-fill" style="width:51%"></div></div>
+            <div class="metric-value">₹12,023 cr<span class="mv-sub">FY25</span></div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label"><strong>CCBs</strong> aggregate deposits</div>
+            <div class="metric-bar"><div class="metric-bar-fill" style="width:100%"></div></div>
+            <div class="metric-value">₹42,695 cr<span class="mv-sub">FY25</span></div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label"><strong>Apex Bank</strong> borrowings</div>
+            <div class="metric-bar"><div class="metric-bar-fill gold" style="width:79%"></div></div>
+            <div class="metric-value">₹18,544 cr<span class="mv-sub">FY25</span></div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label"><strong>CCBs</strong> aggregate borrowings</div>
+            <div class="metric-bar"><div class="metric-bar-fill gold" style="width:93%"></div></div>
+            <div class="metric-value">₹21,788 cr<span class="mv-sub">FY25</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout neutral"><strong>What this module delivers.</strong> A daily portfolio brief: institution-by-institution NPA ageing, sector concentration flags, CRAR compliance, and refinance pipeline vs. NABARD drawdown. Built on existing CBS feeds — no new data collection required.</div>
+    </section>
+
+
+    <!-- ================================================================
+         V2: PACCS & RURAL CREDIT
+    ================================================================ -->
+    <section class="screen" id="s-vpaccs">
+      <div class="page-head">
+        <div class="use-case-tag">Use Case 01 &middot; Vertical 2</div>
+        <h1>PACCS &amp; Rural Credit.</h1>
+        <p class="sub">4,456 Primary Agricultural Co-operative Credit Societies covering 12,620 village panchayats. The flagship modernisation priority. Use Case 02 shows the full platform depth.</p>
+      </div>
+
+      <div class="status-bar">
+        <div class="status-dot red"></div>
+        <div class="status-text"><strong>Critical visibility gap.</strong> ₹18,337 crore disbursed in FY25 with no live portfolio view. ~87% of PACCS are not computerised. 950 loss-making societies in active turnaround with no unified monitor.</div>
+        <div class="status-badge red">Critical</div>
+      </div>
+
+      <div class="kpi-3">
+        <div class="kpi-tile">
+          <div class="k-label">KCC Crop Loan FY25</div>
+          <div class="k-value">₹15,692 cr</div>
+          <div class="k-sub">17.37 lakh farmers &middot; 7% interest &middot; interest-free on prompt repayment</div>
+        </div>
+        <div class="kpi-tile gold">
+          <div class="k-label">KCC-AH Loan FY25</div>
+          <div class="k-value">₹2,645 cr</div>
+          <div class="k-sub">4.43 lakh farmers &middot; animal husbandry &middot; introduced 2021</div>
+        </div>
+        <div class="kpi-tile green">
+          <div class="k-label">Loss-making PACCS</div>
+          <div class="k-value">950</div>
+          <div class="k-sub">Down from 2,000 in FY22 &middot; target zero by FY26</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">What needs attention <span class="ct-tag">Flagged for decision</span></div>
+          <ul class="attention-list">
+            <li class="attention-item">
+              <div class="att-dot red"></div>
+              <div class="att-text"><strong>No unified health view for 950 loss-making PACCS.</strong> Member Support Programme runs without a consolidated tracker — no intervention status, no recovery trajectory, no escalation flags.</div>
+              <div class="att-action">Platform needed</div>
+            </li>
+            <li class="attention-item">
+              <div class="att-dot red"></div>
+              <div class="att-text"><strong>~87% of PACCS not computerised.</strong> Member registers, loan accounts, repayment records on paper. No analytics until computerisation accelerates. Way Forward priority #2.</div>
+              <div class="att-action">Way Forward #2</div>
+            </li>
+            <li class="attention-item">
+              <div class="att-dot amber"></div>
+              <div class="att-text"><strong>Interest subvention reconciliation is manual.</strong> ₹7,180 crore cumulative state rebate over four years reconciled across PACCS, DCCBs, and Apex Bank through manual processes.</div>
+              <div class="att-action">Automate</div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Network status <span class="ct-tag">Policy Note 2025–26</span></div>
+          <div class="metric-row">
+            <div class="metric-label"><strong>Total PACCS</strong></div>
+            <div class="metric-bar"><div class="metric-bar-fill" style="width:100%"></div></div>
+            <div class="metric-value">4,456<span class="mv-sub">+ 225 branches</span></div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label"><strong>Panchayats covered</strong></div>
+            <div class="metric-bar"><div class="metric-bar-fill" style="width:100%"></div></div>
+            <div class="metric-value">12,620</div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label"><strong>Computerised</strong> (Way Forward #2)</div>
+            <div class="metric-bar"><div class="metric-bar-fill gold" style="width:13%"></div></div>
+            <div class="metric-value">~13%</div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label"><strong>Loss-making</strong> (turnaround active)</div>
+            <div class="metric-bar"><div class="metric-bar-fill green" style="width:52%"></div></div>
+            <div class="metric-value">950 remain</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout gold"><strong>Use Case 02 goes deeper.</strong> The PACCS module is a two-screen platform: a Credit Decision Engine (farmer loan eligibility in 90 seconds, with full audit trail) and a Society Health Monitor (every loss-making society tracked by severity, intervention, and recovery status). Navigate to Use Case 02 in the left panel.</div>
+    </section>
+
+
+    <!-- ================================================================
+         V3: PUBLIC DISTRIBUTION SYSTEM
+    ================================================================ -->
+    <section class="screen" id="s-vpds">
+      <div class="page-head">
+        <div class="use-case-tag">Use Case 01 &middot; Vertical 3</div>
+        <h1>Public Distribution System.</h1>
+        <p class="sub">35,039 Fair Price Shops + 2,494 Mobile FPS serving 2.12 crore ration cardholders. The most digitally instrumented vertical — PoS, biometric, UPI all live. Analytics above it has not been built.</p>
+      </div>
+
+      <div class="status-bar">
+        <div class="status-dot green"></div>
+        <div class="status-text"><strong>Operations stable.</strong> Full FPS network running. Biometric and PoS coverage complete. No current escalation. Opportunity: no live leakage detection or FPS performance ranking in place.</div>
+        <div class="status-badge green">Stable</div>
+      </div>
+
+      <div class="kpi-3">
+        <div class="kpi-tile">
+          <div class="k-label">Fair Price Shops</div>
+          <div class="k-value">35,039</div>
+          <div class="k-sub">+ 2,494 Mobile FPS &middot; all on PoS + biometric</div>
+        </div>
+        <div class="kpi-tile gold">
+          <div class="k-label">Ration Cardholders</div>
+          <div class="k-value">2.12 cr</div>
+          <div class="k-sub">Universal PDS &middot; UPI payments enabled at FPS</div>
+        </div>
+        <div class="kpi-tile green">
+          <div class="k-label">ISO 9001 Certified FPS</div>
+          <div class="k-value">10,149</div>
+          <div class="k-sub">~29% of network &middot; ISO 28000 supply chain: 2,059</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">What needs attention <span class="ct-tag">Flagged for decision</span></div>
+          <ul class="attention-list">
+            <li class="attention-item">
+              <div class="att-dot amber"></div>
+              <div class="att-text"><strong>No live leakage detection.</strong> PoS and biometric data collected at every transaction. No system currently flags anomalies — off-hour clusters, biometric failure spikes, or commodity-issue vs. allocation mismatches.</div>
+              <div class="att-action">Build analytics</div>
+            </li>
+            <li class="attention-item">
+              <div class="att-dot amber"></div>
+              <div class="att-text"><strong>No FPS performance ranking.</strong> 35,039 shops with no comparative view — no way to identify consistently underperforming FPS or flag service delivery failures systematically.</div>
+              <div class="att-action">Build ranking</div>
+            </li>
+            <li class="attention-item">
+              <div class="att-dot blue"></div>
+              <div class="att-text"><strong>ISO certification scale-up.</strong> 10,149 of 35,039 FPS are ISO 9001 certified (~29%). Scaling to 50%+ is achievable and would be the most visible quality signal on this vertical.</div>
+              <div class="att-action">Programme</div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Distribution architecture <span class="ct-tag">Policy Note 2025–26</span></div>
+          <div class="metric-row">
+            <div class="metric-label"><strong>Lead Societies</strong></div>
+            <div class="metric-bar"><div class="metric-bar-fill" style="width:22%"></div></div>
+            <div class="metric-value">105</div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label"><strong>Self-lifting Societies</strong></div>
+            <div class="metric-bar"><div class="metric-bar-fill gold" style="width:76%"></div></div>
+            <div class="metric-value">354</div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label"><strong>Link Societies</strong></div>
+            <div class="metric-bar"><div class="metric-bar-fill" style="width:100%"></div></div>
+            <div class="metric-value">4,156</div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label"><strong>Mobile FPS</strong> (hilly / tribal / riverine)</div>
+            <div class="metric-bar"><div class="metric-bar-fill green" style="width:71%"></div></div>
+            <div class="metric-value">2,494</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout neutral"><strong>What this module delivers.</strong> Daily FPS uptime, leakage anomaly feed, and top/bottom shop performance — built on biometric and PoS data that already flows through every transaction. No new hardware required.</div>
+    </section>
+
+
+    <!-- ================================================================
+         V4: CONSUMER CO-OPS & MEDICAL SHOPS
+    ================================================================ -->
+    <section class="screen" id="s-vconsumer">
+      <div class="page-head">
+        <div class="use-case-tag">Use Case 01 &middot; Vertical 4</div>
+        <h1>Consumer Co-ops &amp; Medical Shops.</h1>
+        <p class="sub">TNCCF + 45 District Wholesale Stores + 320 Primary Stores + 380 Co-operative Medical Shops. Way Forward Priority #1 is on this vertical: scale medical shops from 380 to 1,000.</p>
+      </div>
+
+      <div class="status-bar">
+        <div class="status-dot amber"></div>
+        <div class="status-text"><strong>Expansion active, under-instrumented.</strong> Mudalvar Marundagam target is 1,000 shops; 380 live today. No unified expansion tracker, and no retail analytics over ₹161.65 crore medical shop turnover.</div>
+        <div class="status-badge amber">Programme running</div>
+      </div>
+
+      <div class="kpi-3">
+        <div class="kpi-tile">
+          <div class="k-label">Medical Shops Live</div>
+          <div class="k-value">380</div>
+          <div class="k-sub">132 Amma + 248 Co-op &middot; target 1,000 &middot; Way Forward #1</div>
+        </div>
+        <div class="kpi-tile gold">
+          <div class="k-label">Medical Shop Sales FY25</div>
+          <div class="k-value">₹161.65 cr</div>
+          <div class="k-sub">Discount: ₹29.89 cr to 28.13 lakh customers</div>
+        </div>
+        <div class="kpi-tile green">
+          <div class="k-label">Wholesale Sales FY25</div>
+          <div class="k-value">₹2,197 cr</div>
+          <div class="k-sub">TNCCF + 45 District Wholesale Stores</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">What needs attention <span class="ct-tag">Flagged for decision</span></div>
+          <ul class="attention-list">
+            <li class="attention-item">
+              <div class="att-dot amber"></div>
+              <div class="att-text"><strong>620 shops still to open.</strong> Site identification, procurement, staffing, and opening milestones tracked separately — no consolidated pipeline view for the expansion to 1,000.</div>
+              <div class="att-action">Build tracker</div>
+            </li>
+            <li class="attention-item">
+              <div class="att-dot amber"></div>
+              <div class="att-text"><strong>No analytics over ₹161 cr sales.</strong> Which SKUs move, which shops underperform, what seasonal pattern exists — none visible. Demand-led procurement not possible without it.</div>
+              <div class="att-action">Build analytics</div>
+            </li>
+            <li class="attention-item">
+              <div class="att-dot blue"></div>
+              <div class="att-text"><strong>Centralised Procurement of Medicines.</strong> TNCCF is the nodal agency. Vendor performance, price benchmarking, and contract optimisation not centrally tracked.</div>
+              <div class="att-action">Review</div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Expansion progress &middot; Way Forward #1</div>
+          <div style="margin-bottom:14px;">
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:6px;">
+              <span>Live today</span><span>Target</span>
+            </div>
+            <div style="background:var(--line-2);border-radius:6px;height:10px;overflow:hidden;">
+              <div style="width:38%;height:100%;background:linear-gradient(90deg,var(--maroon),var(--maroon-3));border-radius:6px;"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-top:6px;">
+              <span style="color:var(--maroon);">380 live</span>
+              <span style="color:var(--muted);">1,000 target</span>
+            </div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label">Amma Unavagam Medical Shops</div>
+            <div class="metric-value">132</div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label">Co-operative Medical Shops</div>
+            <div class="metric-value">248</div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label">Customer discount given FY25</div>
+            <div class="metric-value">₹29.89 cr<span class="mv-sub">28.13 L customers</span></div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label">Primary Co-op Stores</div>
+            <div class="metric-value">320</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout neutral"><strong>What this module delivers.</strong> A Mudalvar Marundagam programme tracker (pipeline to opening to live performance), retail analytics over existing medical shop data, and centralised procurement intelligence. The expansion tracker is the most immediately actionable module on this vertical.</div>
+    </section>
+
+
+    <!-- ================================================================
+         V5: WELFARE SCHEMES
+    ================================================================ -->
+    <section class="screen" id="s-vwelfare">
+      <div class="page-head">
+        <div class="use-case-tag">Use Case 01 &middot; Vertical 5</div>
+        <h1>Welfare Schemes Portfolio.</h1>
+        <p class="sub">Six targeted lending schemes. ₹4,166 crore disbursed in FY25 to 75,000+ direct beneficiaries plus 8.35 lakh Tamil Magal account holders. Six separate trails — no unified view today.</p>
+      </div>
+
+      <div class="status-bar">
+        <div class="status-dot amber"></div>
+        <div class="status-text"><strong>Large portfolio, no composite view.</strong> SHG dominates at ₹4,063 crore to 53,757 SHGs. Five other schemes tracked separately. No cross-scheme recovery rate, no beneficiary intelligence, no subvention reconciliation dashboard.</div>
+        <div class="status-badge amber">Fragmented view</div>
+      </div>
+
+      <div class="kpi-3">
+        <div class="kpi-tile">
+          <div class="k-label">SHG Loans FY25</div>
+          <div class="k-value">₹4,063 cr</div>
+          <div class="k-sub">53,757 Self-Help Groups &middot; dominant scheme in the portfolio</div>
+        </div>
+        <div class="kpi-tile gold">
+          <div class="k-label">Tamil Magal Accounts</div>
+          <div class="k-value">8.35 lakh</div>
+          <div class="k-sub">31,928 Recurring Deposit accounts &middot; women's savings</div>
+        </div>
+        <div class="kpi-tile green">
+          <div class="k-label">Active Welfare Schemes</div>
+          <div class="k-value">6</div>
+          <div class="k-sub">SHG · Widow · Differently-abled · Folk Artist · Siragugal · Tamil Magal</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">What needs attention <span class="ct-tag">Flagged for decision</span></div>
+          <ul class="attention-list">
+            <li class="attention-item">
+              <div class="att-dot amber"></div>
+              <div class="att-text"><strong>No unified scheme portfolio view.</strong> Six schemes in six systems. No composite NPA view, no cross-scheme beneficiary intelligence, no recovery rate comparison.</div>
+              <div class="att-action">Unify</div>
+            </li>
+            <li class="attention-item">
+              <div class="att-dot amber"></div>
+              <div class="att-text"><strong>Interest subvention reconciliation manual.</strong> Concessional rates and 0% interest on prompt repayment across five schemes require state-to-institution reconciliation currently done manually.</div>
+              <div class="att-action">Automate</div>
+            </li>
+            <li class="attention-item">
+              <div class="att-dot blue"></div>
+              <div class="att-text"><strong>Siragugal scheme newly launched (Nov 2024).</strong> ₹0.84 crore to 101 persons in first cohort. Monitoring for scheme calibration and scale-up should begin now, while the dataset is manageable.</div>
+              <div class="att-action">Monitor</div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Scheme disbursement FY25 <span class="ct-tag">Policy Note 2025–26</span></div>
+          <div class="metric-row">
+            <div class="metric-label"><strong>SHG</strong> lending</div>
+            <div class="metric-bar"><div class="metric-bar-fill" style="width:100%"></div></div>
+            <div class="metric-value">₹4,063 cr<span class="mv-sub">53,757 SHGs</span></div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label"><strong>Differently-abled</strong></div>
+            <div class="metric-bar"><div class="metric-bar-fill gold" style="width:2%"></div></div>
+            <div class="metric-value">₹65 cr<span class="mv-sub">12,672 persons</span></div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label"><strong>Widow / Deserted women</strong></div>
+            <div class="metric-bar"><div class="metric-bar-fill green" style="width:1%"></div></div>
+            <div class="metric-value">₹26 cr<span class="mv-sub">5,923 women</span></div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label"><strong>Folk Artists</strong></div>
+            <div class="metric-bar"><div class="metric-bar-fill" style="width:0.4%"></div></div>
+            <div class="metric-value">₹11 cr<span class="mv-sub">2,447 artists</span></div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label"><strong>Siragugal</strong> (launched Nov 2024)</div>
+            <div class="metric-bar"><div class="metric-bar-fill green" style="width:0.02%"></div></div>
+            <div class="metric-value">₹0.84 cr<span class="mv-sub">101 persons</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout neutral"><strong>What this module delivers.</strong> Unified welfare portfolio view — all six schemes, disbursement vs. recovery, subvention reconciliation status, scheme-by-scheme NPA. The data lives in existing CCB and PACCS records; the intelligence layer above it has not been built.</div>
+    </section>
+
+
+    <!-- ================================================================
+         CONVERGENCE: UNIFIED DEPARTMENT VIEW
+    ================================================================ -->
+    <section class="screen" id="s-convergence">
+      <div class="page-head">
+        <div class="use-case-tag">Use Case 01 &middot; Horizon View</div>
+        <h1>Unified Department View.</h1>
+        <p class="sub">Five vertical modules composing into one morning view. This is the 12–18 month horizon — available once each vertical module is live and a thin integration layer connects them.</p>
+      </div>
+
+      <div class="callout neutral" style="margin-bottom:20px;"><strong>How to read this.</strong> Build the vertical modules first. Once three or more are operational and a common integration spine is in place, this unified view becomes the starting point — five status signals, cross-vertical escalations, and a single fiscal flow summary. Not a replacement for the vertical views: a composition of them.</div>
+
+      <div class="section-title">Five verticals &middot; one status signal each</div>
+      <div class="conv-grid">
+        <div class="conv-tile" onclick="go('vbanking')">
+          <div class="ct-header"><div class="ct-name">Banking &amp; Credit</div><div class="ct-flag amber">Watch</div></div>
+          <div class="ct-sig">₹54,718 cr</div>
+          <div class="ct-line">1 UCB below CRAR · 3 CCBs with crop concentration</div>
+        </div>
+        <div class="conv-tile" onclick="go('vpaccs')">
+          <div class="ct-header"><div class="ct-name">PACCS &amp; Rural Credit</div><div class="ct-flag red">Critical</div></div>
+          <div class="ct-sig">₹18,337 cr</div>
+          <div class="ct-line">950 loss-making · ~87% not computerised</div>
+        </div>
+        <div class="conv-tile" onclick="go('vpds')">
+          <div class="ct-header"><div class="ct-name">Public Distribution</div><div class="ct-flag green">Stable</div></div>
+          <div class="ct-sig">2.12 cr</div>
+          <div class="ct-line">Cardholders served · PoS + biometric complete</div>
+        </div>
+        <div class="conv-tile" onclick="go('vconsumer')">
+          <div class="ct-header"><div class="ct-name">Consumer Co-ops</div><div class="ct-flag amber">Programme</div></div>
+          <div class="ct-sig">380 / 1,000</div>
+          <div class="ct-line">Medical shops live · expansion tracker needed</div>
+        </div>
+        <div class="conv-tile" onclick="go('vwelfare')">
+          <div class="ct-header"><div class="ct-name">Welfare Schemes</div><div class="ct-flag amber">Fragmented</div></div>
+          <div class="ct-sig">₹4,166 cr</div>
+          <div class="ct-line">Six schemes · no unified view</div>
+        </div>
+      </div>
+
+      <div class="section-title">Cross-vertical decisions</div>
+      <div class="card">
+        <ul class="attention-list">
+          <li class="attention-item">
+            <div class="att-dot red"></div>
+            <div class="att-text"><strong>PACCS modernisation is the critical path.</strong> Way Forward priorities #2, #3, and #5 all depend on PACCS being computerised. At ~13% completion, programme-management intensity is needed that currently does not exist.</div>
+            <div class="att-action">Flagship priority</div>
+          </li>
+          <li class="attention-item">
+            <div class="att-dot amber"></div>
+            <div class="att-text"><strong>Three verticals running analytics-blind.</strong> PACCS, Consumer Co-ops, and Welfare Schemes manage large portfolios without a live analytics layer. Every decision in these verticals is on lagged, manual, fragmented data.</div>
+            <div class="att-action">Build layer</div>
+          </li>
+          <li class="attention-item">
+            <div class="att-dot blue"></div>
+            <div class="att-text"><strong>No cross-vertical citizen view.</strong> A citizen may simultaneously be a PACCS member, ration cardholder, SHG borrower, and medical shop customer — four disconnected records in four separate systems.</div>
+            <div class="att-action">Integration horizon</div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="callout gold" style="margin-top:6px;"><strong>Build sequence.</strong> Vertical modules first, parallel where data is accessible. Integration spine second. Unified view third. The PACCS Platform (Use Case 02) is the highest-priority first module — largest gap, most transformative capability, and the foundation for three other Way Forward priorities.</div>
+    </section>
+
+
+    <!-- ================================================================
+         USE CASE 02 / P1: CREDIT DECISION ENGINE
+    ================================================================ -->
+    <section class="screen" id="s-paccs-credit">
+      <div class="page-head">
+        <div class="use-case-tag gold">Use Case 02 &middot; PACCS Platform &middot; P1</div>
+        <h1>Credit Decision Engine.</h1>
+        <p class="sub">A PACCS secretary or DCCB officer enters a member ID. In under 90 seconds: complete member credit profile, loan eligibility against the Scale of Finance, recommended sanction amount, and a system-generated decision — with a full audit trail. What today takes 20 minutes of paper register lookup and produces a subjective output.</p>
+      </div>
+
+      <div class="callout gold" style="margin-bottom:20px;"><strong>Worked example.</strong> Farmer Murugesan R., Member ID PACCS-0044-TJR-1187, walks in to renew his KCC crop loan. The platform retrieves his profile, applies the Scale of Finance, and presents a recommended decision — one screen, under 90 seconds.</div>
+
+      <div class="cde-layout">
+        <div class="cde-member">
+          <div class="mem-header">
+            <div class="mem-avatar">MR</div>
+            <div class="mem-name">Murugesan R.</div>
+            <div class="mem-id">PACCS-0044-TJR-1187</div>
+            <div style="margin-top:8px;"><span class="pill green">Active member</span></div>
+          </div>
+          <div class="mem-row"><span class="mrl">Village / Panchayat</span><span class="mrv">Papanasam, Thanjavur</span></div>
+          <div class="mem-row"><span class="mrl">PACCS</span><span class="mrv">Papanasam PACS #44</span></div>
+          <div class="mem-row"><span class="mrl">Member since</span><span class="mrv">2009 (16 years)</span></div>
+          <div class="mem-row"><span class="mrl">Land holding</span><span class="mrv">2.4 acres</span></div>
+          <div class="mem-row"><span class="mrl">Primary crop</span><span class="mrv">Paddy (Kuruvai + Samba)</span></div>
+          <div class="mem-row"><span class="mrl">Secondary crop</span><span class="mrv">Banana (seasonal)</span></div>
+          <div class="mem-row"><span class="mrl">KCC cycles (last 6 yr)</span><span class="mrv">6 of 6 repaid</span></div>
+          <div class="mem-row"><span class="mrl">Prompt repayments</span><span class="mrv">5 of 6 (before due date)</span></div>
+          <div class="mem-row"><span class="mrl">Current outstanding</span><span class="mrv">₹0 (fully cleared)</span></div>
+          <div class="mem-row"><span class="mrl">Risk tier</span><span class="mrv"><span class="pill green">Low risk</span></span></div>
+        </div>
+
+        <div class="cde-right">
+          <div class="credit-rec">
+            <div class="cr-label">System recommendation · KCC Crop Loan · Kharif 2026</div>
+            <div class="cr-title">Paddy + Banana · Thanjavur district</div>
+            <div class="cr-amount">₹1,08,500</div>
+            <div class="cr-sub">Recommended sanction amount</div>
+            <div class="cr-basis">
+              <strong>Basis:</strong> Scale of Finance (Thanjavur, FY26, indicative) — Paddy: ₹38,000/acre × 2.4 acres = ₹91,200. Banana seasonal supplement: ₹7,300. Risk tier: Low (5/6 prompt repayments). No existing dues. Within PACCS #44 individual sanction ceiling.
+            </div>
+          </div>
+
+          <div class="credit-actions">
+            <button class="ca-btn approve">✓ Approve &amp; Issue</button>
+            <button class="ca-btn refer">↗ Refer to DCCB</button>
+            <button class="ca-btn flag">⚑ Flag for review</button>
+          </div>
+
+          <div class="rep-record">
+            <div class="rep-title">Repayment history &middot; last 6 cycles</div>
+            <div class="rep-bars">
+              <div class="rep-bar-wrap"><div class="rep-bar early" style="height:50px"></div><div class="rep-yr">FY20</div></div>
+              <div class="rep-bar-wrap"><div class="rep-bar ontime" style="height:42px"></div><div class="rep-yr">FY21</div></div>
+              <div class="rep-bar-wrap"><div class="rep-bar early" style="height:50px"></div><div class="rep-yr">FY22</div></div>
+              <div class="rep-bar-wrap"><div class="rep-bar late" style="height:32px"></div><div class="rep-yr">FY23</div></div>
+              <div class="rep-bar-wrap"><div class="rep-bar early" style="height:50px"></div><div class="rep-yr">FY24</div></div>
+              <div class="rep-bar-wrap"><div class="rep-bar early" style="height:50px"></div><div class="rep-yr">FY25</div></div>
+            </div>
+            <div class="rep-summary">
+              <div><span class="rs-hi">5 early / on-time</span> &nbsp;Before or on due date</div>
+              <div><span class="rs-lo">1 late (FY23)</span> &nbsp;Within 60 days of due date</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Platform audit trail <span class="ct-tag">Every decision logged</span></div>
+            <div class="metric-row">
+              <div class="metric-label">Member profile retrieved</div>
+              <div class="metric-value" style="font-size:12px;color:var(--green);">10:42:18 AM</div>
+            </div>
+            <div class="metric-row">
+              <div class="metric-label">Scale of Finance applied</div>
+              <div class="metric-value" style="font-size:12px;color:var(--green);">Thanjavur FY26</div>
+            </div>
+            <div class="metric-row">
+              <div class="metric-label">Risk tier calculated</div>
+              <div class="metric-value" style="font-size:12px;color:var(--green);">Low (automated)</div>
+            </div>
+            <div class="metric-row">
+              <div class="metric-label">Outstanding dues verified</div>
+              <div class="metric-value" style="font-size:12px;color:var(--green);">Nil</div>
+            </div>
+            <div class="metric-row">
+              <div class="metric-label">Sanction ceiling check</div>
+              <div class="metric-value" style="font-size:12px;color:var(--green);">Within limit</div>
+            </div>
+            <div class="metric-row">
+              <div class="metric-label">Recommendation generated</div>
+              <div class="metric-value" style="font-size:12px;">10:42:19 AM</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout gold" style="margin-top:18px;"><strong>What the platform changes.</strong> Today: a PACCS secretary spends 15–20 minutes checking paper registers, relies on personal memory of the farmer's history, and produces a handwritten recommendation with no audit trail. The Credit Decision Engine does this in under 90 seconds, applies the Scale of Finance consistently, documents every step, and surfaces credit risk signals the secretary may not have noticed. The eligibility rules remain exactly as set by the department — the platform enforces them, it does not replace them.</div>
+    </section>
+
+
+    <!-- ================================================================
+         USE CASE 02 / P2: SOCIETY HEALTH MONITOR
+    ================================================================ -->
+    <section class="screen" id="s-paccs-health">
+      <div class="page-head">
+        <div class="use-case-tag gold">Use Case 02 &middot; PACCS Platform &middot; P2</div>
+        <h1>Society Health Monitor.</h1>
+        <p class="sub">The operating tool for the Member Support Programme — taking 950 loss-making PACCS to zero. A district officer opens this screen and immediately sees which societies are in crisis, what intervention is active, what stage it is at, and what the system is flagging for escalation.</p>
+      </div>
+
+      <div class="status-bar">
+        <div class="status-dot amber"></div>
+        <div class="status-text"><strong>Thanjavur district &middot; 186 PACCS.</strong> 14 loss-making. 8 in active intervention. 2 flagged for immediate escalation — one deteriorating despite soft loan, one where joint venture talks have stalled 60+ days.</div>
+        <div class="status-badge amber">14 loss-making</div>
+      </div>
+
+      <div class="kpi-3">
+        <div class="kpi-tile">
+          <div class="k-label">PACCS in district</div>
+          <div class="k-value">186</div>
+          <div class="k-sub">Thanjavur &middot; illustrative district view</div>
+        </div>
+        <div class="kpi-tile gold">
+          <div class="k-label">Loss-making</div>
+          <div class="k-value">14</div>
+          <div class="k-sub">8 in active Member Support Programme</div>
+        </div>
+        <div class="kpi-tile green">
+          <div class="k-label">Recovered this year</div>
+          <div class="k-value">3</div>
+          <div class="k-sub">Moved from loss-making to viable in FY25</div>
+        </div>
+      </div>
+
+      <div class="section-title">Society health ranking &middot; Thanjavur district &middot; sorted by severity</div>
+      <div class="society-monitor">
+        <div class="sm-row hdr">
+          <div>Society</div>
+          <div>Primary driver of loss</div>
+          <div>Status</div>
+          <div>Active intervention</div>
+          <div>Action needed</div>
+        </div>
+        <div class="sm-row">
+          <div>
+            <div class="sm-name">Orathanadu PACS #12</div>
+            <div class="sm-sub">372 members &middot; 4 FPS attached</div>
+          </div>
+          <div class="sm-driver">Deposit withdrawal outpacing new members. NPA in cotton-linked overdraft products.</div>
+          <div><span class="pill red">Critical</span></div>
+          <div class="sm-intervention">Soft loan via DCCB + deposit rebate (Stage 3)</div>
+          <div><span class="pill red">Escalate now</span></div>
+        </div>
+        <div class="sm-row">
+          <div>
+            <div class="sm-name">Papanasam PACS #7</div>
+            <div class="sm-sub">218 members &middot; 2 FPS attached</div>
+          </div>
+          <div class="sm-driver">Joint venture talks stalled 68 days. No new income source identified.</div>
+          <div><span class="pill red">Critical</span></div>
+          <div class="sm-intervention">Joint venture (DCCB-facilitated) &middot; stalled</div>
+          <div><span class="pill red">Escalate now</span></div>
+        </div>
+        <div class="sm-row">
+          <div>
+            <div class="sm-name">Kumbakonam PACS #31</div>
+            <div class="sm-sub">441 members &middot; 3 FPS attached</div>
+          </div>
+          <div class="sm-driver">Seasonal crop loan defaults FY23 — recovery improving. NPA down 18% this year.</div>
+          <div><span class="pill amber">Recovering</span></div>
+          <div class="sm-intervention">Interest rebate (Stage 4) + recovery agent</div>
+          <div><span class="pill blue">Monitor</span></div>
+        </div>
+        <div class="sm-row">
+          <div>
+            <div class="sm-name">Pattukkottai PACS #19</div>
+            <div class="sm-sub">289 members &middot; 1 FPS attached</div>
+          </div>
+          <div class="sm-driver">Membership declining. Single FPS. MSC upgrade proposed to diversify income.</div>
+          <div><span class="pill amber">At risk</span></div>
+          <div class="sm-intervention">MSC upgrade feasibility study</div>
+          <div><span class="pill blue">Track</span></div>
+        </div>
+        <div class="sm-row">
+          <div>
+            <div class="sm-name">Thiruvarur PACS #58</div>
+            <div class="sm-sub">512 members &middot; 5 FPS attached</div>
+          </div>
+          <div class="sm-driver">Flood impact FY24 — recovering. KCC loans current, no new defaults.</div>
+          <div><span class="pill green">Stable</span></div>
+          <div class="sm-intervention">Post-flood soft loan repayment (Stage 5)</div>
+          <div><span class="pill green">On track</span></div>
+        </div>
+        <div class="sm-row" style="background:var(--bg-2);">
+          <div><div class="sm-name" style="color:var(--muted);">+ 9 more societies</div></div>
+          <div style="font-size:12px;color:var(--muted);">3 at risk · 4 recovering · 2 stable</div>
+          <div></div>
+          <div style="font-size:12px;color:var(--muted);">Various interventions active</div>
+          <div></div>
+        </div>
+      </div>
+
+      <div class="two-col" style="margin-top:18px;">
+        <div class="card">
+          <div class="card-title">Intervention pipeline &middot; Thanjavur <span class="ct-tag">Member Support Programme</span></div>
+          <div class="metric-row">
+            <div class="metric-label">Interest rebate deployed</div>
+            <div class="metric-bar"><div class="metric-bar-fill" style="width:100%"></div></div>
+            <div class="metric-value">6 societies</div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label">Soft loan via DCCB</div>
+            <div class="metric-bar"><div class="metric-bar-fill gold" style="width:66%"></div></div>
+            <div class="metric-value">4 societies</div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label">Joint venture facilitation</div>
+            <div class="metric-bar"><div class="metric-bar-fill" style="width:33%"></div></div>
+            <div class="metric-value">2 societies</div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label">MSC upgrade feasibility</div>
+            <div class="metric-bar"><div class="metric-bar-fill green" style="width:16%"></div></div>
+            <div class="metric-value">1 society</div>
+          </div>
+          <div class="metric-row">
+            <div class="metric-label">Recovered in FY25</div>
+            <div class="metric-bar"><div class="metric-bar-fill green" style="width:50%"></div></div>
+            <div class="metric-value">3 societies</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">What this monitor enables</div>
+          <p style="font-size:13.5px;color:var(--ink-3);line-height:1.7;margin:0 0 12px;">Today a district DCCB officer tracks each loss-making PACCS separately — different files, different visits, no ranked view, no intervention status, no early warning when a society is deteriorating despite active help.</p>
+          <p style="font-size:13.5px;color:var(--ink-3);line-height:1.7;margin:0 0 12px;">This screen gives a single ranked view: severity order, current intervention, escalation flagged automatically when a society worsens despite active intervention.</p>
+          <p style="font-size:13.5px;color:var(--ink-3);line-height:1.7;margin:0;">Scale to all 38 districts: the department gets a state-level view of all 950 loss-making PACCS — which interventions are working, where to concentrate effort, and which societies need a different approach.</p>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:4px;"><strong>Connection to P1.</strong> The Credit Decision Engine and Society Health Monitor are two surfaces of the same platform. A society's health score is partly determined by the quality of credit decisions made at that society — prompt repayment rates, NPA levels, loan sizing relative to Scale of Finance. Better credit decisions today become better society health metrics tomorrow.</div>
+    </section>
+
+
+    <!-- ================================================================
+         ABOUT
+    ================================================================ -->
+    <section class="screen" id="s-about">
+      <div class="page-head">
+        <div class="use-case-tag">Reference</div>
+        <h1>About this preview.</h1>
+        <p class="sub">A working preview illustrating what a modern intelligence layer and operational platform over this department could look like. Read this before drawing conclusions about what is live versus what is illustrative.</p>
+      </div>
+
+      <div class="section-title">What this preview is</div>
+      <div class="callout neutral">Two use cases across eight screens. Use Case 01: five vertical dashboards (status signal + key metrics + decision items per vertical) and a unified convergence view. Use Case 02: two surfaces of the PACCS platform — a Credit Decision Engine for farmer-level loan eligibility, and a Society Health Monitor for the loss-making PACCS turnaround programme. Structure and logic reflect how a live system would work. Specific data within the screens is partly verbatim from Policy Note 2025–26 and partly illustrative of what a live system would surface.</div>
+
+      <div class="section-title" style="margin-top:24px;">What this preview is not</div>
+      <div class="callout neutral">Not a prototype or live system. Screens are HTML mockups. No data pipeline exists, no CBS integration is in place. The farmer profile in the Credit Decision Engine (Murugesan R., Papanasam) is a constructed illustrative example showing the platform's logic — not a real record.</div>
+
+      <div class="section-title" style="margin-top:24px;">Where the numbers come from</div>
+      <table class="source-table">
+        <thead>
+          <tr><th>Number / fact</th><th>Source</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>4,456 PACCS + 225 branches covering 12,620 panchayats</td><td>Policy Note 2025–26, Chapter 4</td><td><span class="badge-v verbatim">Verbatim</span></td></tr>
+          <tr><td>KCC Crop Loan ₹15,692 cr to 17.37 lakh farmers FY25</td><td>Policy Note 2025–26, Chapter 4</td><td><span class="badge-v verbatim">Verbatim</span></td></tr>
+          <tr><td>KCC-AH ₹2,645 cr to 4.43 lakh farmers FY25</td><td>Policy Note 2025–26, Chapter 4</td><td><span class="badge-v verbatim">Verbatim</span></td></tr>
+          <tr><td>Loss-making PACCS: 2,000 → 950 over four years</td><td>Policy Note 2025–26, Chapter 4</td><td><span class="badge-v verbatim">Verbatim</span></td></tr>
+          <tr><td>State interest rebate: ₹7,180 crore cumulative over four years</td><td>Policy Note 2025–26, Chapter 4</td><td><span class="badge-v verbatim">Verbatim</span></td></tr>
+          <tr><td>35,039 FPS + 2,494 Mobile FPS, 2.12 crore ration cardholders</td><td>Policy Note 2025–26, Chapter 3</td><td><span class="badge-v verbatim">Verbatim</span></td></tr>
+          <tr><td>10,149 ISO 9001 + 2,059 ISO 28000 certified FPS</td><td>Policy Note 2025–26, Chapter 3</td><td><span class="badge-v verbatim">Verbatim</span></td></tr>
+          <tr><td>380 medical shops (132 Amma + 248 Co-op) · ₹161.65 cr sales FY25</td><td>Policy Note 2025–26, Chapter 5</td><td><span class="badge-v verbatim">Verbatim</span></td></tr>
+          <tr><td>₹29.89 cr discount to 28.13 lakh customers (medical shops FY25)</td><td>Policy Note 2025–26, Chapter 5</td><td><span class="badge-v verbatim">Verbatim</span></td></tr>
+          <tr><td>TNCCF wholesale sales ₹2,197 cr FY25</td><td>Policy Note 2025–26, Chapter 5</td><td><span class="badge-v verbatim">Verbatim</span></td></tr>
+          <tr><td>SHG loans ₹4,063 cr to 53,757 SHGs FY25</td><td>Policy Note 2025–26, Chapter 6</td><td><span class="badge-v verbatim">Verbatim</span></td></tr>
+          <tr><td>Tamil Magal: 8.35 lakh accounts, 31,928 Recurring Deposits</td><td>Policy Note 2025–26, Chapter 6</td><td><span class="badge-v verbatim">Verbatim</span></td></tr>
+          <tr><td>Apex Bank deposits ₹12,023 cr · CCBs deposits ₹42,695 cr FY25</td><td>Policy Note 2025–26, Chapter 2</td><td><span class="badge-v verbatim">Verbatim</span></td></tr>
+          <tr><td>Apex Bank borrowings ₹18,544 cr · CCBs ₹21,788 cr FY25</td><td>Policy Note 2025–26, Chapter 2</td><td><span class="badge-v verbatim">Verbatim</span></td></tr>
+          <tr><td>Jewel loan waiver: ₹4,918 cr to 11.83 lakh beneficiaries</td><td>Policy Note 2025–26, Chapter 2</td><td><span class="badge-v verbatim">Verbatim</span></td></tr>
+          <tr><td>Differently-abled loans ₹65 cr · 12,672 beneficiaries FY25</td><td>Policy Note 2025–26, Chapter 6</td><td><span class="badge-v verbatim">Verbatim</span></td></tr>
+          <tr><td>Widow / Deserted Women loans ₹26 cr · 5,923 FY25</td><td>Policy Note 2025–26, Chapter 6</td><td><span class="badge-v verbatim">Verbatim</span></td></tr>
+          <tr><td>Folk Artist loans ₹11 cr · 2,447 artists FY25</td><td>Policy Note 2025–26, Chapter 6</td><td><span class="badge-v verbatim">Verbatim</span></td></tr>
+          <tr><td>Siragugal loans ₹0.84 cr · 101 persons (launched Nov 2024)</td><td>Policy Note 2025–26, Chapter 6</td><td><span class="badge-v verbatim">Verbatim</span></td></tr>
+          <tr><td>Portfolio NPA ~5–7% across co-op banking network</td><td>Industry reference estimate</td><td><span class="badge-v illus">Illustrative</span></td></tr>
+          <tr><td>Farmer profile: Murugesan R., Papanasam, 2.4 acres</td><td>Constructed example</td><td><span class="badge-v illus">Illustrative</span></td></tr>
+          <tr><td>Thanjavur: 186 PACCS, 14 loss-making</td><td>Proportional to statewide data</td><td><span class="badge-v illus">Illustrative</span></td></tr>
+          <tr><td>Scale of Finance: Paddy ₹38,000/acre, Thanjavur FY26</td><td>Indicative · actual SoF set by State Level Technical Committee</td><td><span class="badge-v derived">Indicative</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+</div>
+
+<div class="demo-banner">
+  <strong>Working preview</strong> · structure and logic are real · specific data partly illustrative
+</div>
+
+<script>
+  function go(name) {
+    document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.sidebar a.nav-item').forEach(el => el.classList.remove('active'));
+    const screen = document.getElementById('s-' + name);
+    if (screen) { screen.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    const nav = document.querySelector('.sidebar a.nav-item[data-screen="' + name + '"]');
+    if (nav) nav.classList.add('active');
+    const labels = {
+      vbanking:       'Use Case 01 · Co-operative Banking & Credit',
+      vpaccs:         'Use Case 01 · PACCS & Rural Credit',
+      vpds:           'Use Case 01 · Public Distribution System',
+      vconsumer:      'Use Case 01 · Consumer Co-ops & Medical Shops',
+      vwelfare:       'Use Case 01 · Welfare Schemes Portfolio',
+      convergence:    'Use Case 01 · Unified Department View',
+      'paccs-credit': 'Use Case 02 · PACCS Platform · Credit Decision Engine',
+      'paccs-health': 'Use Case 02 · PACCS Platform · Society Health Monitor',
+      about:          'About this preview'
+    };
+    document.getElementById('crumb').innerHTML = '<strong>' + (labels[name] || '') + '</strong>';
+  }
+</script>
+</body>
+</html>
